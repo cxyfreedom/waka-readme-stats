@@ -104,6 +104,8 @@ class LinesOfCode:
             data = input_file.read()
         try:
             contents = repo.get_contents("charts/bar_graph.png")
+            print(len(data))
             repo.update_file(contents.path, "Charts Updated", data, contents.sha, committer=committer)
         except Exception as e:
+            print(e)
             repo.create_file("charts/bar_graph.png", "Charts Added", data, committer=committer)
