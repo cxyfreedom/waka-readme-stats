@@ -536,6 +536,7 @@ if __name__ == '__main__':
         g = Github(ghtoken)
         headers = {"Authorization": "Bearer " + ghtoken}
         user_data = run_query(userInfoQuery)  # Execute the query
+        print(user_data)
         username = user_data["data"]["viewer"]["login"]
         id = user_data["data"]["viewer"]["id"]
         emails_user = run_v3_api("/user/emails")  # Execute the api
