@@ -98,7 +98,8 @@ class LinesOfCode:
 
     def pushChart(self):
         repo = self.g.get_repo(f"{self.username}/{self.username}")
-        committer = InputGitAuthor('readme-bot', '41898282+github-actions[bot]@users.noreply.github.com')
+        # committer = InputGitAuthor('readme-bot', '41898282+github-actions[bot]@users.noreply.github.com')
+        committer = InputGitAuthor(name="Waka-Bot", email="bot@github.com")
         with open('bar_graph.png', 'rb') as input_file:
             data = input_file.read()
         try:
