@@ -403,8 +403,11 @@ def generate_language_per_repo(result):
 
 
 def get_yearly_data():
+    print("start get yearly data")
     repository_list = run_query(repositoryListQuery.substitute(username=username, id=id))
+    print(repository_list)
     loc = LinesOfCode(id, username, ghtoken, repository_list, ignored_repos_name)
+    print(loc)
     yearly_data = loc.calculateLoc()
     if showLocChart.lower() in truthy:
         print("get yearly data")
