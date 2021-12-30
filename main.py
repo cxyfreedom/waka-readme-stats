@@ -407,6 +407,7 @@ def get_yearly_data():
     loc = LinesOfCode(id, username, ghtoken, repository_list, ignored_repos_name)
     yearly_data = loc.calculateLoc()
     if showLocChart.lower() in truthy:
+        print("get yearly data")
         loc.plotLoc(yearly_data)
     return yearly_data
 
@@ -502,6 +503,7 @@ def get_stats(github):
     if showLocChart.lower() in truthy:
         stats += '**' + translate['Timeline'] + '**\n\n'
         branch_name = github.get_repo(f'{username}/{username}').default_branch
+        print(username, branch_name)
         stats = stats + '![Chart not found](https://raw.githubusercontent.com/' + username + '/' + username + '/' + branch_name + '/charts/bar_graph.png) \n\n'
 
     if show_updated_date.lower() in truthy:
