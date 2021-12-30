@@ -1,3 +1,5 @@
+> Looking For Translation to different languages & Locale  [#23](https://github.com/anmol098/waka-readme-stats/issues/23)
+
 # Dev Metrics in Readme with added feature flags 🎌
 
 ![Project Preview](https://user-images.githubusercontent.com/25841814/79395484-5081ae80-7fac-11ea-9e27-ac91472e31dd.png)
@@ -39,13 +41,13 @@
 1. You need to update the markdown file(.md) with 2 comments. You can refer [here](#update-your-readme) for updating it.
 2. You'll need a WakaTime API Key. You can get that from your WakaTime Account Settings
     - You can refer [here](#new-to-wakatime), if you're new to WakaTime
-3. You'll need a GitHub API Token with `repo` scope from [here](https://github.com/settings/tokens) if you're running the action to get commit metrics
-   > enable `repo` scope seems **DANGEROUS**<br/>
-   > but this GitHub Action only accesses your commit timestamp in repository you contributed.
+3. You'll need a GitHub API Token with `repo` and `user` scope from [here](https://github.com/settings/tokens) if you're running the action to get commit metrics
+   > enabling the `repo` scope seems **DANGEROUS**<br/>
+   > but this GitHub Action only accesses your commit timestamp and lines of code added or deleted in repository you contributed.
    - You can use [this](#profile-repository) example to work it out
-4. You need to save the WakaTime API Key and the GitHub API Token in the repository secrets. You can find that in the Settings of your Repository.Be sure to save those as the following.
-    - WakaTime-api-key as `WAKATIME_API_KEY = <your wakatime API Key>`and
-    - The GitHub Access Token as `GH_TOKEN=<your github access token>`
+4. You need to save the WakaTime API Key and the GitHub API Token in the repository secrets. You can find that in the Settings of your repository. Be sure to save those as the following.
+    - WakaTime API Key as `WAKATIME_API_KEY=<your wakatime API Key>`
+    - GitHub Personal Access Token as `GH_TOKEN=<your github access token>`
 5. You can enable and disable feature flags based on requirements.
 
 
@@ -73,7 +75,7 @@ WakaTime gives you an idea of the time you really spent on coding. This helps yo
 
 ### Profile Repository
 
-You'll need to get a [GitHub Access Token](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) with a `repo` scope and save it in the Repo Secrets `GH_TOKEN = <Your GitHub Access Token>`
+You'll need to get a [GitHub Access Token](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token) with a `repo` and `user` scope and save it in the Repo Secrets `GH_TOKEN = <Your GitHub Access Token>`
 
 Here is Sample Workflow File for running it:
 
@@ -84,7 +86,7 @@ on:
   schedule:
     # Runs at 12am IST
     - cron: '30 18 * * *'
-
+  workflow_dispatch:
 jobs:
   update-readme:
     name: Update Readme with Metrics
@@ -95,6 +97,8 @@ jobs:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 ```
+- Now you can commit and wait for run automatically, but you can also trigger to run it to see the result now. Just go to the `Actions` in your repo and select your `Profile Readme Development Stats` workflow and click in `Run workflow`. Now wait for a minute or two and you will see your changes.
+
 ## Extras
 
 1. If you want to add the other info to your stats, you can add multiple `FLAGS` in your workflow file by default all flags are enabled 
@@ -109,10 +113,25 @@ jobs:
           SHOW_PROJECTS: "False"
 ```
 
-#### Flags Available
+### Flags Available
+
+---
+
+`LOCALE`  This Flag can be used to show stats in your language default is english uses Locale [Short Hand](https://saimana.com/list-of-country-locale-code/) to be passed in the flag variable example of the final result can be found [here](https://github.com/anmol098/anmol098/blob/master/Readme-fr.md)
+
+`COMMIT_BY_ME`        flag can be set to `True` to commit the code using your name and email
+
+`COMMIT_MESSAGE`        flag can be to set message commit, default is "Updated with Dev Metrics"
+
+`SHOW_UPDATED_DATE`        flag can be set to `True` to show updated date in end of paragraph
+
 `SHOW_LINES_OF_CODE`       flag can be set to `True` to show the Lines of code writen till date
 
-![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I've%20written-12,66,814%20Lines%20of%20code-blue)
+![Lines of code](https://img.shields.io/badge/From%20Hello%20World%20I've%20written-1.3%20million%20Lines%20of%20code-blue)
+
+`SHOW_PROFILE_VIEWS`       flag can be set to `False` to hide the Profile views
+
+![Profile Views](http://img.shields.io/badge/Profile%20Views-2189-blue)
 
 
 `SHOW_COMMIT`       flag can be set to `False` to hide the commit stats
@@ -125,6 +144,9 @@ jobs:
 🌙 Night      26 commits     ██░░░░░░░░░░░░░░░░░░░░░░░   8.36%
 
 ```
+
+`SHOW_DAYS_OF_WEEK`       flag can be set to `False` to hide the commits made on different days of week
+
 📅 **I'm Most Productive on Sundays** 
 
 ```text
@@ -183,6 +205,44 @@ PhpStorm                 1 hr 35 mins        ████░░░░░░░�
 PyCharm                  23 mins             █░░░░░░░░░░░░░░░░░░░░░░░░   4.49%
 ```
 
+`SHOW_LANGUAGE_PER_REPO`  flag can be set to `False` to hide the Number of repository in different language and frameworks
+
+**I mostly code in Vue** 
+
+```text
+Vue          8 repos        ██████░░░░░░░░░░░░░░░░░░░   25.0% 
+Java         6 repos        ████░░░░░░░░░░░░░░░░░░░░░   18.75% 
+JavaScript   6 repos        ████░░░░░░░░░░░░░░░░░░░░░   18.75% 
+PHP          3 repos        ██░░░░░░░░░░░░░░░░░░░░░░░   9.38% 
+Python       2 repos        █░░░░░░░░░░░░░░░░░░░░░░░░   6.25% 
+Dart         2 repos        █░░░░░░░░░░░░░░░░░░░░░░░░   6.25% 
+CSS          2 repos        █░░░░░░░░░░░░░░░░░░░░░░░░   6.25%
+
+```
+
+`SHOW_SHORT_INFO`  flag can be set to `False` to hide the short fun fact info of user
+>This section requires personal access token with user permission otherwise data shown will be incorrect here
+
+**🐱 My GitHub Data** 
+
+> 🏆 433 Contributions in year 2020
+ > 
+> 📦 Used 292.3 kB in GitHub's Storage 
+ > 
+> 💼 Opted to Hire
+ > 
+> 📜 25 Public Repository 
+ > 
+> 🔑 15 Owned Private Repository 
+
+`SHOW_LOC_CHART`  flag can be set to `False` to hide the Lines of code written in different quarters of different year
+
+`IGNORED_REPOS`  flag can be set to `"waka-readme-stats, my-first-repo"` (just an example) to ignore some repos you don’t want to be counted
+
+**Timeline**
+
+![Chart not found](https://raw.githubusercontent.com/anmol098/anmol098/master/charts/bar_graph.png) 
+
 ## :sparkling_heart: Support the project
 
 I open-source almost everything I can, and I try to reply to everyone needing help using these projects. Obviously,
@@ -198,13 +258,151 @@ Thanks! :heart:
 
 ---
 
-Contributions are welcomed! ♥
+# Contributing
+
+Contributions are welcome! ♥! Please share any features, and add unit tests! Use the pull request and issue systems to contribute.
+
+# Selected Contributors
+
+1. [Anmol Pratap Singh](https://github.com/anmol098): Maintainer
+2. [Prabhat Singh](https://github.com/prabhatdev): For code timeline graph [#18](https://github.com/anmol098/waka-readme-stats/pull/18)
+2. [Aravind V. Nair](https://github.com/aravindvnair99): For Pull Request [#188](https://github.com/anmol098/waka-readme-stats/pull/188) And Other improvements
+3. [Hedy Li](https://github.com/hedythedev): For Pull Request [#34](https://github.com/anmol098/waka-readme-stats/pull/34) and [#23](https://github.com/anmol098/waka-readme-stats/pull/23)
+4. [Pedro Torres](https://github.com/Corfucinas): For Pull Request [#29](https://github.com/anmol098/waka-readme-stats/pull/29)
+5. [Aaron Meese](https://github.com/ajmeese7): For Pull Request [#45](https://github.com/anmol098/waka-readme-stats/pull/45)
+6. [Arnav Jindal](https://github.com/Daggy1234): For Pull Request [#48](https://github.com/anmol098/waka-readme-stats/pull/48)
+7. [Daniel Rowe](https://github.com/DanRowe): For Pull Request [#57](https://github.com/anmol098/waka-readme-stats/pull/57)
+8. [Ss5h](https://github.com/tlatkdgus1): For adding support for natural sentence writing for translation [#136](https://github.com/anmol098/waka-readme-stats/pull/136)
+
+<details>
+<summary>Special mention for those who are currently making their profile readme more awesome :smile: :tada:</summary>
+
+  - [Stanislas](https://github.com/angristan)
+  
+  - [Pratik Kumar](https://github.com/pr2tik1)
+  
+  - [Vladimir](https://github.com/sergeev-vn)
+
+  - [Pedro Torres](https://github.com/Corfucinas)
+  
+  - [leverglowh](https://github.com/leverglowh)
+  
+  - [patdc](https://github.com/patdc)
+  
+  - [极客挖掘机](https://github.com/meteor1993)
+  
+  - [Fan()](https://github.com/Fanduzi)
+  
+  - [Miller Camilo Vega](https://github.com/minoveaz)
+  
+  - [XLor](https://github.com/yjl9903)
+  
+  - [Jesse Okeya](https://github.com/jesseokeya)
+  
+  - [anaiel](https://github.com/anaiel)
+  
+  - [Dipto Mondal](https://github.com/diptomondal007)
+  
+  - [Jerry F. Zhang](https://github.com/JerryFZhang)
+  
+  - [Karan Singh](https://github.com/karan06126)
+  
+  - [Erwin Lejeune](https://github.com/guilyx)
+  
+  - [Manuel Cepeda](https://github.com/mecm1993)
+  
+  - [Jonathan S](https://github.com/TGTGamer)
+  
+  - [Tsotne Gvadzabia](https://github.com/RockiRider)
+  
+  - [Miray](https://github.com/MirayXS)
+  
+  - [Varad Patil](https://github.com/varadp2000)
+  
+  - [Prabhat Singh](https://github.com/prabhatdev)
+  
+  - [Nikhil](https://github.com/nikhilgorantla)
+  
+  - [大白](https://github.com/2720851545)
+  
+  - [Du Yizhuo](https://github.com/dyzdyz010)
+  
+  - [Manas Talukdar](https://github.com/manastalukdar)
+  
+  - [Simranjeet Singh](https://github.com/smrnjeet222)
+  
+  - [Aaron Meese](https://github.com/ajmeese7)
+  
+  - [Prasad Narkhede](https://github.com/p014ri5)
+  
+  - [Manish Kushwaha](https://github.com/tzmanish)
+  
+  - [Hedy Li](https://github.com/hedythedev)
+  
+  - [SHIMIZU Taku](https://github.com/takuan-osho)
+  
+  - [Jude Wilson](https://github.com/mr-winson)
+  
+  - [Daniel Rowe](https://github.com/DanRowe)
+  
+  - [Muhammad Hassan Ahmed](https://github.com/hassan11196)
+  
+  - [Alessandro Maggio](https://github.com/Tkd-Alex)
+  
+  - [Siddharth Gupta](https://github.com/siddg97)
+  
+  - [Dev-Mehta](https://github.com/Dev-Mehta/)
+  
+  - [> EdgyCoder ✌](https://github.com/edgycoder)
+  
+  - [> EdgyCoder ✌](https://github.com/edgycoder)
+  
+  - [Korel Kashri](https://github.com/korelkashri)
+  
+  - [Gustavo Barbosa](https://github.com/gusbdev)
+
+  - [eagleanurag](https://github.com/eagleanurag)
+  
+  - [Aravind V. Nair](https://github.com/aravindvnair99)
+  
+  - [Raman Preet Singh](https://github.com/raman08)
+  
+  - [Hayat Tamboli](https://github.com/hayat-tamboli)
+  
+  - [Henry Boisdequin](https://github.com/henryboisdequin)
+   
+  - [Raman Preet Singh](https://github.com/raman08)
+  
+  - [Aadit Kamat](https://github.com/aaditkamat)
+    
+  - [Subhalingam D](https://github.com/subhalingamd)
+  
+  - [Adil Akhmetov](https://github.com/weeebdev)
+  
+  - [Isaac Maldonado](https://github.com/einjunge99)
+  
+  - [Syed Faateh Sultan Kazmi](https://github.com/faatehsultan)
+
+  - [Shreyam Maity](https://github.com/ShreyamMaity)
+
+  - [Sufiane](https://github.com/sufiane)
+
+  - [Muhammad Bilal](https://github.com/BilalJaved15)
+
+  - [Waterdev](https://github.com/UnrealValentin)
+
+  
+
+</details>
+
+- And you! If ever you are using it right now and you are not on the list please tell us by sending a [Special Mention](https://github.com/anmol098/waka-readme-stats/issues/new/choose) issue :blush: we are glad to add you in the list.
+
 
 Made with :heart: and Python 🐍.
 
+# Inspired From
 
+> [Awesome Pinned Gists](https://github.com/matchai/awesome-pinned-gists) <br/>
+> [athul/waka-readme](https://github.com/athul/waka-readme)
 
-> This project is inspired by an awesome pinned-gist project [Awesome Pinned Gists](https://github.com/matchai/awesome-pinned-gists) <br/>
->This project is inspired from [athul/waka-readme](https://github.com/athul/waka-readme)
-
-### Don't forget to leave a ⭐ if you found this useful.
+### This project need a **star** ⭐ from you ♥.
