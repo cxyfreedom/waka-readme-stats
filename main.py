@@ -403,14 +403,10 @@ def generate_language_per_repo(result):
 
 
 def get_yearly_data():
-    print("start get yearly data")
     repository_list = run_query(repositoryListQuery.substitute(username=username, id=id))
-    print(repository_list)
     loc = LinesOfCode(id, username, ghtoken, repository_list, ignored_repos_name)
-    print(loc)
     yearly_data = loc.calculateLoc()
     if showLocChart.lower() in truthy:
-        print("get yearly data")
         loc.plotLoc(yearly_data)
     return yearly_data
 
@@ -505,7 +501,6 @@ def get_stats(github):
     if showLocChart.lower() in truthy:
         stats += '**' + translate['Timeline'] + '**\n\n'
         branch_name = github.get_repo(f'{username}/{username}').default_branch
-        print(username, branch_name)
         stats = stats + '![Chart not found](https://raw.githubusercontent.com/' + username + '/' + username + '/' + branch_name + '/charts/bar_graph.png) \n\n'
 
     if show_updated_date.lower() in truthy:
@@ -540,7 +535,6 @@ if __name__ == '__main__':
         g = Github(ghtoken)
         headers = {"Authorization": "Bearer " + ghtoken}
         user_data = run_query(userInfoQuery)  # Execute the query
-        print(user_data)
         username = user_data["data"]["viewer"]["login"]
         id = user_data["data"]["viewer"]["id"]
         emails_user = run_v3_api("/user/emails")  # Execute the api

@@ -35,9 +35,7 @@ class LinesOfCode:
 
     def plotLoc(self, yearly_data):
         graph = BarGraph(yearly_data)
-        print("build graph")
         graph.build_graph()
-        print("build graph success")
         self.pushChart()
 
     def run_query_v3(self, endPoint):
@@ -100,16 +98,12 @@ class LinesOfCode:
 
     def pushChart(self):
         repo = self.g.get_repo(f"{self.username}/{self.username}")
-        print(repo)
         # committer = InputGitAuthor('readme-bot', '41898282+github-actions[bot]@users.noreply.github.com')
         committer = InputGitAuthor(name="Waka-Bot", email="bot@github.com")
         with open('bar_graph.png', 'rb') as input_file:
             data = input_file.read()
         try:
             contents = repo.get_contents("charts/bar_graph.png")
-            print(contents.path)
-            print(len(data))
             repo.update_file(contents.path, "Charts Updated", data, contents.sha, committer=committer)
         except Exception as e:
-            print(e)
             repo.create_file("charts/bar_graph.png", "Charts Added", data, committer=committer)
