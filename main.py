@@ -29,6 +29,8 @@ END_COMMENT = '<!--END_SECTION:waka-->'
 listReg = f"{START_COMMENT}[\\s\\S]+{END_COMMENT}"
 
 waka_key = os.getenv('INPUT_WAKATIME_API_KEY')
+# WakaTime personal OAuth token, sent as a Bearer header (API keys stop working for the API on 2026-11-01)
+waka_headers = {"Authorization": "Bearer " + (waka_key or "")}
 ghtoken = os.getenv('INPUT_GH_TOKEN')
 showTimeZone = os.getenv('INPUT_SHOW_TIMEZONE')
 showProjects = os.getenv('INPUT_SHOW_PROJECTS')
@@ -309,10 +311,10 @@ def generate_commit_list(tz):
 def get_waka_time_stats():
     stats = ''
     request = requests.get(
-        f"https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key={waka_key}")
+        f"https://wakatime.com/api/v1/users/current/stats/last_7_days", headers=waka_headers)
     no_activity = translate["No Activity Tracked This Week"]
 
-    if request.status_code == 401:
+    if request.status_code in (401, 403):
         print("Error With WAKA time API returned " + str(request.status_code) + " Response " + str(request.json()))
     else:
         empty = True
@@ -468,8 +470,8 @@ def get_stats(github):
 
     if show_total_code_time.lower() in truthy:
         request = requests.get(
-            f"https://wakatime.com/api/v1/users/current/all_time_since_today?api_key={waka_key}")
-        if request.status_code == 401:
+            f"https://wakatime.com/api/v1/users/current/all_time_since_today", headers=waka_headers)
+        if request.status_code in (401, 403):
             print("Error With WAKA time API returned " + str(request.status_code) + " Response " + str(request.json()))
         elif "text" not in request.json()["data"]:
             print("User stats are calculating. Try again later.")
